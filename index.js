@@ -90,7 +90,7 @@ function log(type, f, args) {
             data.push(getDateTime(now));
             data.push(type);
 
-            if (type == 'error') {
+            if (type == 'ERROR') {
                 data.push(getFilename());
             }
 
