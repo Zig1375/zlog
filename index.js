@@ -90,6 +90,10 @@ function log(type, f, args) {
             data.push(getDateTime(now));
             data.push(type);
 
+            if (type == 'error') {
+                data.push(getFilename());
+            }
+
             if ((args) && (args.length)) {
                 for(var i = 0; i < args.length; i++) {
                     data.push(args[i]);
@@ -116,6 +120,21 @@ function getDate(now) {
 
 function getTime(now) {
     return [tz(now.getHours()), tz(now.getMinutes()), tz(now.getSeconds())].join(':');
+}
+
+function getFilename() {
+    try {
+        a += 0;
+    } catch (e) {
+        var stack = e.stack.split("\n");
+        for(var i = 2; i < stack.length; i++) {
+            if (stack[i].indexOf(__filename) < 0) {
+                return stack[i].match(/\(([^\)]+)\)/)[1];
+            }
+        }
+    }
+
+    return '';
 }
 
 function tz(i) {
