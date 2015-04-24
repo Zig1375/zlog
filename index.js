@@ -88,7 +88,7 @@ function log(type, f, args) {
             */
         } else {
             data.push(getDateTime(now));
-            data.push(type + '\t');
+            data.push(type);
 
             if ((args) && (args.length)) {
                 for(var i = 0; i < args.length; i++) {

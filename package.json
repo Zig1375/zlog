@@ -1,14 +1,13 @@
 {
-    "name"            : "zlog",
+    "name"            : "z-log",
     "description"     : "Fast Logger",
     "maintainers"     : "Alexander Palchikov <zig@ikalogs.ru>",
     "homepage"        : "https://github.com/Zig1375/zlog.git",
     "author"          : {
         "name" : "Alexander Palchikov"
     },
-    "contributors"    : [
-    ],
-    "version"         : "0.0.1",
+    "contributors"    : [],
+    "version"         : "0.0.2",
     "main"            : "index.js",
     "dependencies"    : {},
     "devDependencies" : {},
@@ -17,8 +16,19 @@
     },
     "readmeFilename"  : "Readme.md",
 
+
     "repository"      : {
         "type" : "git",
         "url"  : "https://github.com/Zig1375/zlog.git"
+    },
+    "keywords": [
+        "console.log",
+        "console",
+        "logger",
+        "log"
+    ],
+
+    "bugs": {
+        "url": "https://github.com/Zig1375/zlog/issues"
     }
 }
