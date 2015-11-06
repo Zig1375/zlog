@@ -74,18 +74,18 @@ function log(type, f, args) {
 
         if (0 || format) {
             /*
-            var m = format.match(/(%[a-z]+%)/ig);
+             var m = format.match(/(%[a-z]+%)/ig);
 
-            if ((m) && (m.length)) {
-                for(var i = 0; i < m.length; i++) {
-                    switch (m[i]) {
-                        case '%date%' :
+             if ((m) && (m.length)) {
+             for(var i = 0; i < m.length; i++) {
+             switch (m[i]) {
+             case '%date%' :
 
-                            break;
-                    }
-                }
-            }
-            */
+             break;
+             }
+             }
+             }
+             */
         } else {
             data.push(getDateTime(now));
             data.push(type);
@@ -129,7 +129,7 @@ function getFilename() {
         var stack = e.stack.split("\n");
         for(var i = 2; i < stack.length; i++) {
             if (stack[i].indexOf(__filename) < 0) {
-                return stack[i].match(/\(([^\)]+)\)/)[1];
+                return stack[i];
             }
         }
     }
