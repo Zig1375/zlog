@@ -1,6 +1,6 @@
 var lvl = 0,
-    format = null,  // Default: '[%datetime%]  %tag%   %message%',
     canColor = false,
+    asJson = false,
     colors = {
         info  : '\x1b[36m',
         warn  : '\x1b[33m',
@@ -32,10 +32,8 @@ module.exports = {
         }
     },
 
-    setFormat : function(f) {
-        if ((f === null) || (typeof f == 'string')) {
-            format = f;
-        }
+    setAsJson: function(b) {
+        asJson = !!b;
     },
 
     canColor : function(b) {
@@ -68,45 +66,62 @@ module.exports = {
 };
 
 function log(type, f, args) {
-    if ((typeof levels[f] != 'undefined') && (lvl <= levels[f])) {
-        var now = new Date(),
-            data = [];
+    if ((typeof levels[f] !== 'undefined') && (lvl <= levels[f])) {
+        var now = new Date(), data;
 
-        if (0 || format) {
-            /*
-             var m = format.match(/(%[a-z]+%)/ig);
+        if (asJson) {
+            data = {
+                type: type,
+                datetime: getDateTime(now)
+            };
 
-             if ((m) && (m.length)) {
-             for(var i = 0; i < m.length; i++) {
-             switch (m[i]) {
-             case '%date%' :
+            if ((args) && (args.length)) {
+                data.data = args[0];
 
-             break;
-             }
-             }
-             }
-             */
+                if (args.length > 1) {
+                    data.args = [];
+                    for (var i = 1; i < args.length; i++) {
+                        data.args.push(args[i]);
+                    }
+                }
+            }
+
+            if (type === 'ERROR') {
+                data.filename = getFilename();
+            }
+
+            data.date = getDate(now);
+            data.time = getTime(now);
+            data.ts = now.getTime();
+
+            data = JSON.stringify(data);
+            if ((canColor) && (colors[f])) {
+                data = colors[f] + data + '\x1b[0m';
+            }
+
+            console[f].apply(console, data);
         } else {
+            data = [];
             data.push(getDateTime(now));
             data.push(type);
 
-            if (type == 'ERROR') {
+            if (type === 'ERROR') {
                 data.push(getFilename());
             }
 
             if ((args) && (args.length)) {
-                for(var i = 0; i < args.length; i++) {
+                for (var i = 0; i < args.length; i++) {
                     data.push(args[i]);
                 }
             }
-        }
 
-        if ((canColor) && (colors[f])) {
-            data[0] = colors[f] + data[0];
-            data.push('\x1b[0m');
-        }
+            if ((canColor) && (colors[f])) {
+                data[0] = colors[f] + data[0];
+                data.push('\x1b[0m');
+            }
 
-        console[f].apply(console, data);
+            console[f].apply(console, data);
+        }
     }
 }
 
