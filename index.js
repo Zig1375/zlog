@@ -1,6 +1,7 @@
 var lvl = 0,
     canColor = false,
     asJson = false,
+    errorAsJson = false,
     colors = {
         info  : '\x1b[36m',
         warn  : '\x1b[33m',
@@ -32,8 +33,9 @@ module.exports = {
         }
     },
 
-    setAsJson: function(b) {
+    setAsJson: function(b, eb) {
         asJson = !!b;
+        errorAsJson = (typeof eb === 'boolean') ? eb : !!b;
     },
 
     canColor : function(b) {
@@ -69,7 +71,7 @@ function log(type, f, args) {
     if ((typeof levels[f] !== 'undefined') && (lvl <= levels[f])) {
         var now = new Date(), data;
 
-        if (asJson) {
+        if ((asJson) && ((errorAsJson) || (type !== 'ERROR'))) {
             data = {
                 type: type,
                 datetime: getDateTime(now)
