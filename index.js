@@ -101,7 +101,7 @@ function log(type, f, args) {
                 data = colors[f] + data + '\x1b[0m';
             }
 
-            console[f].apply(console, data);
+            console[f].apply(console, [data]);
         } else {
             data = [];
             data.push(getDateTime(now));
