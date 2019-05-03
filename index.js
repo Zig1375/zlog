@@ -1,4 +1,5 @@
 var lvl = 0,
+    callback = null,
     canColor = false,
     asJson = false,
     errorAsJson = false,
@@ -38,6 +39,12 @@ module.exports = {
         errorAsJson = (typeof eb === 'boolean') ? eb : !!b;
     },
 
+    setCallback: function(cb) {
+        if ((cb === null) || (typeof cb === 'function')) {
+            callback = cb;
+        }
+    },
+
     canColor : function(b) {
         canColor = !!b;
     },
@@ -70,11 +77,6 @@ module.exports = {
 function log(type, f, args) {
     if ((typeof levels[f] !== 'undefined') && (lvl <= levels[f])) {
         var now = new Date(), data;
-        var callback = null;
-
-        if ((args) && (args.length) && (typeof args[args.length - 1] === 'function')) {
-            callback = args.pop();
-        }
 
         if ((asJson) && ((errorAsJson) || (type !== 'ERROR'))) {
             data = {
