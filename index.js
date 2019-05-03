@@ -70,6 +70,11 @@ module.exports = {
 function log(type, f, args) {
     if ((typeof levels[f] !== 'undefined') && (lvl <= levels[f])) {
         var now = new Date(), data;
+        var callback = null;
+
+        if ((args) && (args.length) && (typeof args[args.length - 1] === 'function')) {
+            callback = args.pop();
+        }
 
         if ((asJson) && ((errorAsJson) || (type !== 'ERROR'))) {
             data = {
@@ -124,6 +129,8 @@ function log(type, f, args) {
 
             console[f].apply(console, data);
         }
+
+        callback && callback(f, data);
     }
 }
 
