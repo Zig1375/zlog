@@ -132,7 +132,10 @@ function log(type, f, args) {
             console[f].apply(console, data);
         }
 
-        callback && callback(f, data);
+        if (typeof callback === 'function') {
+            var d = (typeof data === 'string') ? JSON.parse(data) : data;
+            callback && callback(f, d);
+        }
     }
 }
 
