@@ -103,9 +103,14 @@ function log(type, f, args) {
             data.time = getTime(now);
             data.ts = now.getTime();
 
-            data = JSON.stringify(data);
-            if ((canColor) && (colors[f])) {
-                data = colors[f] + data + '\x1b[0m';
+            try {
+                data = JSON.stringify(data);
+
+                if ((canColor) && (colors[f])) {
+                    data = colors[f] + data + '\x1b[0m';
+                }
+            } catch (e) {
+                console.error('Cannot get JSON from ', data);
             }
 
             console[f].apply(console, [data]);
